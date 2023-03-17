@@ -20,6 +20,7 @@
 		zephyr,flash = &flash0;
 		zephyr,dtcm = &dtcm;
 		zephyr,flash-controller = &mx25l51245g;
+		zephyr,display = &ltdc;
 		zephyr,keyboard-scan = &touch_controller;
 	};
 
@@ -255,7 +256,6 @@ arduino_serial: &usart6 {};
 	status = "okay";
 	ext-sdram = <&sdram1>;
 
-	/* orisetech, otm8009a */
 	width = <800>;
 	height = <480>;
 	hsync-pol = <STM32_LTDC_HSPOL_ACTIVE_LOW>;
