@@ -1,0 +1,61 @@
+/*
+ * Copyright (c) 2023 bytes at work AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	chosen {
+		zephyr,display = &ltdc;
+	};
+};
+
+&ltdc {
+	status = "okay";
+	ext-sdram = <&sdram1>;
+
+	width = <800>;
+	height = <480>;
+	hsync-pol = <STM32_LTDC_HSPOL_ACTIVE_LOW>;
+	vsync-pol = <STM32_LTDC_VSPOL_ACTIVE_LOW>;
+	de-pol = <STM32_LTDC_DEPOL_ACTIVE_LOW>;
+	pclk-pol = <STM32_LTDC_PCPOL_ACTIVE_LOW>;
+	hsync-duration = <2>;
+	vsync-duration = <1>;
+	hbp-duration = <34>;
+	vbp-duration = <15>;
+	hfp-duration = <34>;
+	vfp-duration = <16>;
+
+	def-back-color-red = <0>;
+	def-back-color-green = <0>;
+	def-back-color-blue = <0>;
+};
+
+/* ltdc uses pll3_r as pixel clock */
+&pll {
+	div-m = <25>;
+	mul-n = <432>;
+	div-p = <2>;
+	div-q = <9>;
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&mipi_dsi {
+	status = "okay";
+
+	pll-ndiv = <100>;
+	pll-idf = <5>;
+	pll-odf = <0>;
+
+	vs-active-high;
+	hs-active-high;
+	de-active-high;
+};
+
+&otm8009a {
+	data-lanes = <2>;
+	pixel-format = <MIPI_DSI_PIXFMT_RGB888>;
+	rotation = <0>;
+};

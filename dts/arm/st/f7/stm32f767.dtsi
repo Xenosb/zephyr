@@ -6,6 +6,7 @@
 
 #include <st/f7/stm32f7.dtsi>
 #include <zephyr/dt-bindings/display/stm32_ltdc.h>
+#include <zephyr/dt-bindings/mipi_dsi/mipi_dsi.h>
 
 / {
 	/* 128KB DTCM @ 20000000, 368KB SRAM1 @ 20020000,
@@ -96,6 +97,20 @@
 			interrupt-names = "ltdc", "ltdc_err";
 			clocks = <&rcc STM32_CLOCK_BUS_APB2 0x04000000>;
 			status = "disabled";
+		};
+
+		mipi_dsi: dsihost@40016C00 {
+			compatible = "st,stm32-mipi-dsi";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x40016C00 0x1000>;
+			clock-names = "dsiclk", "refclk", "pixelclk";
+			clocks = <&rcc STM32_CLOCK_BUS_APB2 0x08000000>,
+				 <&rcc STM32_SRC_HSI NO_SEL>,
+				 <&rcc STM32_SRC_PLL_R NO_SEL>;
+			resets = <&rctl STM32_RESET(APB2, 27U)>;
+			status = "disabled";
+			test-pattern = <1>;
 		};
 	};
 };
