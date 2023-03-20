@@ -64,17 +64,25 @@
 		compatible = "st,dsi-lcd-qsh-030";
 		#gpio-cells = <2>;
 		gpio-map-mask = <0xffffffff 0xffffffc0>;
-		gpio-map-pass-thru = <0 0x3f>;
-		gpio-map = <4 0 &gpioi 13 0>,	/* TOUCH_INT */
-			   <35 0 &gpiog 7 0>,	/* SCLK/MCLK */
-			   <39 0 &gpiod 11 0>,	/* I2S */
-			   <40 0 &gpiob 9 0>,	/* I2C4_SDA */
-			   <44 0 &gpiob 8 0>,	/* I2C4_SCL */
-			   <45 0 &gpioa 8 0>,	/* CEC_CLK */
-			   <47 0 &gpioa 15 0>,	/* CEC */
-			   <49 0 &gpioj 2 0>,	/* DSI_TE */
-			   <53 0 &gpioi 14 0>,	/* LCD_BL_CTRL */
-			   <57 0 &gpioj 15 0>;	/* DSI_RESET */
+		// gpio-map-pass-thru = <0 0x3f>;
+		gpio-map =
+				<3 0 &gpioh 12 0>,	/* DSI_CK_P */
+				<4 0 &gpioi 13 0>,	/* TOUCH_INT */
+				<5 0 &gpioh 13 0>,	/* DSI_CK_N */
+				<9 0 &gpioj 12 0>,	/* DSI_D0_P */
+				<11 0 &gpioj 13 0>,	/* DSI_D0_N */
+				<15 0 &gpiof 12 0>,	/* DSI_D1_P */
+				<17 0 &gpiof 13 0>,	/* DSI_D2_N */
+				<35 0 &gpiog 7 0>,	/* SCLK/MCLK */
+				<37 0 &gpioe 4 0>,	/* LRCLK */
+				<39 0 &gpiod 11 0>,	/* I2S */
+				<40 0 &gpiob 7 0>,	/* I2C4_SDA */
+				<44 0 &gpiod 12 0>,	/* I2C4_SCL */
+				<45 0 &gpioa 8 0>,	/* CEC_CLK */
+				<47 0 &gpioa 15 0>,	/* CEC */
+				<49 0 &gpioj 2 0>,	/* DSI_TE */
+				<53 0 &gpioi 14 0>,	/* LCD_BL_CTRL */
+				<57 0 &gpioj 15 0>;	/* DSI_RESET */
 	};
 
 	aliases {
@@ -97,7 +105,7 @@
 	div-m = <25>;
 	mul-n = <432>;
 	div-p = <2>;
-	div-q = <9>;
+	div-q = <4>;
 	clocks = <&clk_hse>;
 	status = "okay";
 };
@@ -250,26 +258,4 @@ arduino_serial: &usart6 {};
 			st,sdram-timing = <2 6 4 6 2 2 2>;
 		};
 	};
-};
-
-&ltdc {
-	status = "okay";
-	ext-sdram = <&sdram1>;
-
-	width = <800>;
-	height = <480>;
-	hsync-pol = <STM32_LTDC_HSPOL_ACTIVE_LOW>;
-	vsync-pol = <STM32_LTDC_VSPOL_ACTIVE_LOW>;
-	de-pol = <STM32_LTDC_DEPOL_ACTIVE_LOW>;
-	pclk-pol = <STM32_LTDC_PCPOL_ACTIVE_LOW>;
-	hsync-duration = <2>;
-	vsync-duration = <1>;
-	hbp-duration = <34>;
-	vbp-duration = <15>;
-	hfp-duration = <34>;
-	vfp-duration = <16>;
-
-	def-back-color-red = <0>;
-	def-back-color-green = <0>;
-	def-back-color-blue = <0>;
 };

@@ -152,16 +152,20 @@ static int mipi_dsi_stm32_host_init(const struct device *dev)
 		return -ENOTSUP;
 	}
 
-	ret = clock_control_get_rate(config->rcc, (clock_control_subsys_t)&config->pix_clk,
-				     &data->pixel_clk_khz);
+	// ret = clock_control_get_rate(config->rcc, (clock_control_subsys_t)&config->pix_clk,
+	// 			     &data->pixel_clk_khz);
+	data->pixel_clk_khz = 41700;
+	ret = 0;
 	if (ret) {
 		LOG_ERR("Get pixel clock failed! (%d)", ret);
 		return ret;
 	}
 
 	data->pixel_clk_khz /= 1000;
-	ret = clock_control_get_rate(config->rcc, (clock_control_subsys_t)&config->ref_clk,
-				     &hse_clock);
+	// ret = clock_control_get_rate(config->rcc, (clock_control_subsys_t)&config->ref_clk,
+	// 			     &hse_clock);
+	hse_clock = 25;
+	ret = 0;
 	if (ret) {
 		LOG_ERR("Get HSE clock failed! (%d)", ret);
 		return ret;
@@ -230,7 +234,7 @@ static int mipi_dsi_stm32_host_init(const struct device *dev)
 }
 
 
-static int mipi_dsi_stm32_attach(const struct device *dev, uint8_t channel,
+static int mipi_dsi_stm32_attach(const struct device *dev, uint8_t channel, 
 				 const struct mipi_dsi_device *mdev)
 {
 	const struct mipi_dsi_stm32_config *config = dev->config;
@@ -259,13 +263,15 @@ static int mipi_dsi_stm32_attach(const struct device *dev, uint8_t channel,
 	vcfg->NumberOfChunks = 0;
 	vcfg->NullPacketSize = 0xFFFU;
 
-	vcfg->HorizontalSyncActive =
-		(mdev->timings.hsync * data->lane_clk_khz) / data->pixel_clk_khz;
-	vcfg->HorizontalBackPorch =
-		(mdev->timings.hbp * data->lane_clk_khz) / data->pixel_clk_khz;
-	vcfg->HorizontalLine =
-		((mdev->timings.hactive + mdev->timings.hsync + mdev->timings.hbp +
-		  mdev->timings.hfp) * data->lane_clk_khz) / data->pixel_clk_khz;
+	if (true) {//data->pixel_clk_khz) {
+		vcfg->HorizontalSyncActive =
+			(mdev->timings.hsync * data->lane_clk_khz) / data->pixel_clk_khz;
+		vcfg->HorizontalBackPorch =
+			(mdev->timings.hbp * data->lane_clk_khz) / data->pixel_clk_khz;
+		vcfg->HorizontalLine =
+			((mdev->timings.hactive + mdev->timings.hsync + mdev->timings.hbp +
+			mdev->timings.hfp) * data->lane_clk_khz) / data->pixel_clk_khz;
+	}
 	vcfg->VerticalSyncActive = mdev->timings.vsync;
 	vcfg->VerticalBackPorch = mdev->timings.vbp;
 	vcfg->VerticalFrontPorch = mdev->timings.vfp;
