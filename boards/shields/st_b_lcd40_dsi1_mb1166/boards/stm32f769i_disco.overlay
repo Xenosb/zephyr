@@ -1,0 +1,57 @@
+/*
+ * Copyright (c) 2023 The Qt Group Oy
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&ltdc {
+	status = "okay";
+	ext-sdram = <&sdram1>;
+
+	width = <800>;
+	height = <480>;
+	hsync-pol = <STM32_LTDC_HSPOL_ACTIVE_LOW>;
+	vsync-pol = <STM32_LTDC_VSPOL_ACTIVE_LOW>;
+	de-pol = <STM32_LTDC_DEPOL_ACTIVE_LOW>;
+	pclk-pol = <STM32_LTDC_PCPOL_ACTIVE_LOW>;
+	hsync-duration = <2>;
+	vsync-duration = <1>;
+	hbp-duration = <34>;
+	vbp-duration = <15>;
+	hfp-duration = <34>;
+	vfp-duration = <16>;
+
+	def-back-color-red = <0>;
+	def-back-color-green = <0>;
+	def-back-color-blue = <0>;
+};
+
+&mipi_dsi {
+	status = "okay";
+
+	pll-ndiv = <100>;
+	pll-idf = <5>;
+	pll-odf = <0>;
+
+	vs-active-high;
+	hs-active-high;
+	de-active-high;
+
+	// test-pattern = <1>;
+
+	phy-timings = 
+		<35>, // ClockLaneHS2LPTime
+		<35>, // ClockLaneLP2HSTime
+		<35>, // DataLaneHS2LPTime
+		<35>, // DataLaneLP2HSTime
+		<0>, // DataLaneMaxReadTime
+		<10>; // StopWaitTime
+};
+
+&otm8009a {
+	status = "okay";
+
+	data-lanes = <2>;
+	pixel-format = <MIPI_DSI_PIXFMT_RGB888>;
+	rotation = <90>;
+};
